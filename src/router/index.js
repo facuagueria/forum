@@ -1,20 +1,58 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import Home from "@/Pages/Home";
+import ThreadShow from "@/Pages/ThreadShow";
+import NotFound from "@/Pages/NotFound";
+import Forum from "@/Pages/Forum";
+import Category from "@/Pages/Category";
+import dataSource from "../data.json";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home",
+    component: Home,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/category/:id",
+    name: "Category",
+    component: Category,
+    props: true,
+  },
+  {
+    path: "/forum/:id",
+    name: "Forum",
+    component: Forum,
+    props: true,
+  },
+  {
+    path: "/thread/:id",
+    name: "ThreadShow",
+    component: ThreadShow,
+    props: true,
+    beforeEnter(to, from, next) {
+      // Check if thread exists
+      const threadExists = dataSource.threads.find(
+        (thread) => thread.id === to.params.id
+      );
+      if (threadExists) {
+        // if exists continue
+        return next();
+      } else {
+        // if doesn't exist redirect to not found
+        next({
+          name: "NotFound",
+          params: { pathMatch: to.path.substring(1).split("/") },
+          //preserve existing query and hash
+          query: to.query,
+          hash: to.hash,
+        });
+      }
+    },
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

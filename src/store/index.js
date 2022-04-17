@@ -1,7 +1,8 @@
 import { createStore } from "vuex";
+import dataSource from "@/data.json";
 
 export default createStore({
-  state: {},
+  state: dataSource,
   getters: {},
   mutations: {},
   actions: {},

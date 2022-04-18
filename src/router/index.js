@@ -4,6 +4,7 @@ import ThreadShow from "@/Pages/ThreadShow";
 import NotFound from "@/Pages/NotFound";
 import Forum from "@/Pages/Forum";
 import Category from "@/Pages/Category";
+import Profile from "@/Pages/Profile";
 import dataSource from "../data.json";
 
 const routes = [
@@ -11,6 +12,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
   },
   {
     path: "/category/:id",

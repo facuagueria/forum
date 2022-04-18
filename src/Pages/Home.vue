@@ -5,14 +5,14 @@
 
 <script>
 import CategoryList from "@/components/CategoryList";
-import dataSource from "@/data.json";
+
 export default {
   name: "PageHome",
   components: { CategoryList },
-  data() {
-    return {
-      categories: dataSource.categories,
-    };
+  computed: {
+    categories() {
+      return this.$store.state.categories;
+    },
   },
 };
 </script>

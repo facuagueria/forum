@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import dataSource from "@/data.json";
-
 export default {
   name: "PostList",
   props: {
@@ -41,10 +39,10 @@ export default {
       type: Array,
     },
   },
-  data() {
-    return {
-      users: dataSource.users,
-    };
+  computed: {
+    users() {
+      return this.$store.state.users;
+    },
   },
   methods: {
     userById(userId) {

@@ -5,7 +5,7 @@
 
 <script>
 import ForumList from "@/components/ForumList";
-import dataSource from "@/data.json";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Category",
@@ -20,12 +20,15 @@ export default {
   },
   computed: {
     category() {
-      return dataSource.categories.find((category) => category.id === this.id);
+      // return this.$store.state.categories.find((category) => category.id === this.id);
+      return this.$store.state.categories.find(
+        (category) => category.id === this.id
+      );
     },
   },
   methods: {
     getForumsForCategory(category) {
-      return dataSource.forums.filter(
+      return this.$store.state.forums.filter(
         (forum) => forum.categoryId === category.id
       );
     },

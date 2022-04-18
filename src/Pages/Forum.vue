@@ -15,7 +15,6 @@
 
 <script>
 import ThreadList from "@/components/ThreadList";
-import dataSource from "@/data.json";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -29,10 +28,12 @@ export default {
   },
   computed: {
     forum() {
-      return dataSource.forums.find((forum) => forum.id === this.id);
+      return this.$store.state.forums.find((forum) => forum.id === this.id);
     },
     threads() {
-      return dataSource.threads.filter((thread) => thread.forumId === this.id);
+      return this.$store.state.threads.filter(
+        (thread) => thread.forumId === this.id
+      );
     },
   },
 };

@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import dataSource from "@/data.json";
 export default {
   name: "ThreadList",
   components: {},
@@ -53,11 +52,13 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      posts: dataSource.posts,
-      users: dataSource.users,
-    };
+  computed: {
+    posts() {
+      return this.$store.state.posts;
+    },
+    users() {
+      return this.$store.state.users;
+    },
   },
   methods: {
     postById(postId) {

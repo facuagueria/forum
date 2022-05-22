@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/Pages/Home";
 import ThreadShow from "@/Pages/ThreadShow";
 import ThreadCreate from "@/Pages/ThreadCreate";
+import ThreadEdit from "@/Pages/ThreadEdit";
 import NotFound from "@/Pages/NotFound";
 import Forum from "@/Pages/Forum";
 import Category from "@/Pages/Category";
@@ -67,6 +68,12 @@ const routes = [
     path: "/forum/:forumId/thread/create",
     name: "ThreadCreate",
     component: ThreadCreate,
+    props: true,
+  },
+  {
+    path: "/thread/:id/edit",
+    name: "ThreadEdit",
+    component: ThreadEdit,
     props: true,
   },
   {

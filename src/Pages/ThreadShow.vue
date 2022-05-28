@@ -1,6 +1,17 @@
 <template>
   <div class="col-large push-top">
-    <h1>{{ thread.title }}</h1>
+    <h1>
+      {{ thread.title }}
+      <router-link
+        :to="{ name: 'ThreadEdit', id: this.id }"
+        custom
+        v-slot="{ navigate }"
+      >
+        <button @click="navigate" role="button" class="btn-green btn-small">
+          Edit Thread
+        </button>
+      </router-link>
+    </h1>
     <PostList :posts="threadPosts" />
     <PostEditor @save="addPost" />
   </div>

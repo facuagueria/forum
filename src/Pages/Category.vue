@@ -5,6 +5,7 @@
 
 <script>
 import ForumList from "@/components/ForumList";
+import { findById } from "@/helpers";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -21,9 +22,7 @@ export default {
   computed: {
     category() {
       // return this.$store.state.categories.find((category) => category.id === this.id);
-      return this.$store.state.categories.find(
-        (category) => category.id === this.id
-      );
+      return findById(this.$store.state.categories, this.id);
     },
   },
   methods: {

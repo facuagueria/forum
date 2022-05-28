@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { findById } from "@/helpers";
+
 export default {
   name: "PostList",
   props: {
@@ -46,7 +48,7 @@ export default {
   },
   methods: {
     userById(userId) {
-      return this.users.find((u) => u.id === userId);
+      return findById(this.users.find, userId);
     },
   },
 };

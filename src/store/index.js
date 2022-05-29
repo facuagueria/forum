@@ -41,21 +41,18 @@ export default createStore({
       const userIndex = state.users.findIndex((user) => user.id === userId);
       state.users[userIndex] = user;
     },
-    appendPostToThread(state, { postId, threadId }) {
-      const thread = findById(state.threads, threadId);
-      thread.posts = thread.posts || [];
-      thread.posts.push(postId);
-    },
-    appendThreadToForum(state, { forumId, threadId }) {
-      const forum = findById(state.forums, forumId);
-      forum.threads = forum.threads || [];
-      forum.threads.push(threadId);
-    },
-    appendThreadToUser(state, { userId, threadId }) {
-      const user = findById(state.users, userId);
-      user.threads = user.threads || [];
-      user.threads.push(threadId);
-    },
+    appendPostToThread: makeAppendChildToParentMutation({
+      parent: "threads",
+      child: "posts",
+    }),
+    appendThreadToForum: makeAppendChildToParentMutation({
+      parent: "forums",
+      child: "threads",
+    }),
+    appendThreadToUser: makeAppendChildToParentMutation({
+      parent: "users",
+      child: "threads",
+    }),
   },
   actions: {
     createPost({ commit, state }, post) {
@@ -64,8 +61,8 @@ export default createStore({
       post.publishedAt = Math.floor(Date.now() / 1000);
       commit("setPost", { post });
       commit("appendPostToThread", {
-        postId: post.id,
-        threadId: post.threadId,
+        childId: post.id,
+        parentId: post.threadId,
       });
     },
     async createThread({ commit, state, dispatch }, { title, text, forumId }) {
@@ -74,8 +71,8 @@ export default createStore({
       const publishedAt = Math.floor(Date.now() / 1000);
       const thread = { forumId, title, publishedAt, userId, id };
       commit("setThread", { thread });
-      commit("appendThreadToUser", { userId, threadId: id });
-      commit("appendThreadToForum", { forumId, threadId: id });
+      commit("appendThreadToUser", { parentId: userId, childId: id });
+      commit("appendThreadToForum", { parentId: forumId, childId: id });
       dispatch("createPost", { text, threadId: id });
       return findById(state.threads, id);
     },
@@ -94,3 +91,11 @@ export default createStore({
   },
   modules: {},
 });
+
+function makeAppendChildToParentMutation({ parent, child }) {
+  return (state, { childId, parentId }) => {
+    const resource = findById(state[parent], parentId);
+    resource[child] = resource[child] || [];
+    resource[child].push(childId);
+  };
+}

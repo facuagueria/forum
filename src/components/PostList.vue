@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     userById(userId) {
-      return findById(this.users.find, userId);
+      return findById(this.users, userId);
     },
   },
 };
